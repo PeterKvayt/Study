@@ -12,8 +12,10 @@ namespace ClientUDP1
     {
         static int localPort = 4005; // порт приема сообщений
         static int remotePort = 4004; // порт для отправки сообщений
-        static string userName;
-
+        //static string userName;
+        static IPAddress[] addr = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+        static string localIpV6Address = addr[addr.Length - 1].ToString(); // local ipv6
+        static string remoteIpV6Address = localIpV6Address;
         static Socket listeningSocket;
 
         static void Main(string[] args)
@@ -22,8 +24,8 @@ namespace ClientUDP1
             //localPort = Int32.Parse(Console.ReadLine());
             //Console.Write("Введите порт для отправки сообщений: ");
             //remotePort = Int32.Parse(Console.ReadLine());
-            Console.Write("Введите свое имя: ");
-            userName = Console.ReadLine();
+            //Console.Write("Введите свое имя: ");
+            //userName = Console.ReadLine();
             Console.WriteLine("Для отправки сообщений введите сообщение и нажмите Enter");
             Console.WriteLine();
 
@@ -41,7 +43,7 @@ namespace ClientUDP1
                     string message = Console.ReadLine();
 
                     byte[] data = Encoding.Unicode.GetBytes(message);
-                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse("fd80:7d14:74d4:ed00:705f:be9c:40f5:9e09"), remotePort);
+                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV6Address), remotePort);
                     //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), remotePort);
                     listeningSocket.SendTo(data, remotePoint);
                 }
@@ -62,7 +64,7 @@ namespace ClientUDP1
             try
             {
                 //Прослушиваем по адресу
-                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("fd80:7d14:74d4:ed00:705f:be9c:40f5:9e09"), localPort);
+                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse(localIpV6Address), localPort);
                 //IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), localPort);
                 listeningSocket.Bind(localIP);
 
@@ -87,7 +89,7 @@ namespace ClientUDP1
                     IPEndPoint remoteFullIp = remoteIp as IPEndPoint;
 
                     // выводим сообщение
-                    Console.WriteLine("{0}:{1} - {2}", userName, DateTime.Now.ToShortTimeString(), builder.ToString());
+                    Console.WriteLine("You:{1} - {2}",  DateTime.Now.ToShortTimeString(), builder.ToString());
                 }
             }
             catch (Exception ex)

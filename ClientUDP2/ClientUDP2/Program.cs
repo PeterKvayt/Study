@@ -13,6 +13,9 @@ namespace ClientUDP2
         static int localPort = 4004; // порт приема сообщений
         static int remotePort = 4005; // порт для отправки сообщений
         static string userName;
+        static IPAddress[] addr = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
+        static string localIpV6Address = addr[addr.Length - 1].ToString(); // local ipv6
+        static string remoteIpV6Address = localIpV6Address;
         static Socket listeningSocket;
 
         static void Main(string[] args)
@@ -39,7 +42,7 @@ namespace ClientUDP2
                     string message = Console.ReadLine();
 
                     byte[] data = Encoding.Unicode.GetBytes(message);
-                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse("fd80:7d14:74d4:ed00:705f:be9c:40f5:9e09"), remotePort);
+                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV6Address), remotePort);
                     //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), remotePort);
                     listeningSocket.SendTo(data, remotePoint);
                 }
@@ -60,7 +63,7 @@ namespace ClientUDP2
             try
             {
                 //Прослушиваем по адресу
-                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("fd80:7d14:74d4:ed00:705f:be9c:40f5:9e09"), localPort);
+                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse(localIpV6Address), localPort);
                 //IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), localPort);
                 listeningSocket.Bind(localIP);
 
