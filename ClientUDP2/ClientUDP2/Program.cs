@@ -12,10 +12,12 @@ namespace ClientUDP2
     {
         static int localPort = 4004; // порт приема сообщений
         static int remotePort = 4005; // порт для отправки сообщений
-        static string userName;
+        //static string userName;
         static IPAddress[] addr = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         static string localIpV6Address = addr[addr.Length - 1].ToString(); // local ipv6
         static string remoteIpV6Address = localIpV6Address;
+        static string localIpV4Address = new WebClient().DownloadString("http://icanhazip.com/"); // local ipv4
+        static string remoteIpV4Address = "178.120.75.34";
         static Socket listeningSocket;
 
         static void Main(string[] args)
@@ -24,15 +26,15 @@ namespace ClientUDP2
             //localPort = Int32.Parse(Console.ReadLine());
             //Console.Write("Введите порт для отправки сообщений: ");
             //remotePort = Int32.Parse(Console.ReadLine());
-            Console.Write("Введите свое имя: ");
-            userName = Console.ReadLine();
+            //Console.Write("Введите свое имя: ");
+            //userName = Console.ReadLine();
             Console.WriteLine("Для отправки сообщений введите сообщение и нажмите Enter");
             Console.WriteLine();
 
             try
             {
-                listeningSocket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp);
-                //listeningSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                //listeningSocket = new Socket(AddressFamily.InterNetworkV6, SocketType.Dgram, ProtocolType.Udp);
+                listeningSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 Task listeningTask = new Task(Listen);
                 listeningTask.Start();
 
@@ -42,8 +44,8 @@ namespace ClientUDP2
                     string message = Console.ReadLine();
 
                     byte[] data = Encoding.Unicode.GetBytes(message);
-                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV6Address), remotePort);
-                    //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), remotePort);
+                    //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV6Address), remotePort);
+                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV4Address), remotePort);
                     listeningSocket.SendTo(data, remotePoint);
                 }
             }
@@ -63,8 +65,8 @@ namespace ClientUDP2
             try
             {
                 //Прослушиваем по адресу
-                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse(localIpV6Address), localPort);
-                //IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), localPort);
+                //IPEndPoint localIP = new IPEndPoint(IPAddress.Parse(localIpV6Address), localPort);
+                IPEndPoint localIP = new IPEndPoint(IPAddress.Parse(localIpV4Address), localPort);
                 listeningSocket.Bind(localIP);
 
                 while (true)
@@ -75,8 +77,8 @@ namespace ClientUDP2
                     byte[] data = new byte[256]; // буфер для получаемых данных
 
                     //адрес, с которого пришли данные
-                    EndPoint remoteIp = new IPEndPoint(IPAddress.IPv6Any, 0);
-                    //EndPoint remoteIp = new IPEndPoint(IPAddress.Any, 0);
+                    //EndPoint remoteIp = new IPEndPoint(IPAddress.IPv6Any, 0);
+                    EndPoint remoteIp = new IPEndPoint(IPAddress.Any, 0);
 
                     do
                     {
@@ -88,7 +90,7 @@ namespace ClientUDP2
                     IPEndPoint remoteFullIp = remoteIp as IPEndPoint;
 
                     // выводим сообщение
-                    Console.WriteLine("{0}:{1} - {2}", userName, DateTime.Now.ToShortTimeString(), builder.ToString());
+                    Console.WriteLine("You:{1} - {2}",  DateTime.Now.ToShortTimeString(), builder.ToString());
                 }
             }
             catch (Exception ex)
