@@ -16,8 +16,10 @@ namespace ClientUDP2
         static IPAddress[] addr = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         static string localIpV6Address = addr[addr.Length - 1].ToString(); // local ipv6
         static string remoteIpV6Address = localIpV6Address;
-        static string localIpV4Address = new WebClient().DownloadString("http://icanhazip.com/"); // local ipv4
-        static string remoteIpV4Address = "178.120.75.34";
+        //static string localIpV4Address = new WebClient().DownloadString("http://icanhazip.com/"); // local ipv4
+        static string localIpV4Address = "127.0.0.1";// local ipv4
+        static string remoteIpV4Address = "127.0.0.1";
+        //static string remoteIpV4Address = "178.120.75.34";
         static Socket listeningSocket;
 
         static void Main(string[] args)
@@ -90,7 +92,8 @@ namespace ClientUDP2
                     IPEndPoint remoteFullIp = remoteIp as IPEndPoint;
 
                     // выводим сообщение
-                    Console.WriteLine("You:{1} - {2}",  DateTime.Now.ToShortTimeString(), builder.ToString());
+                    Console.WriteLine("Message:{0} - {1}",  DateTime.Now.ToShortTimeString(), builder.ToString());
+                    //listeningSocket.SendTo(Encoding.Unicode.GetBytes("well done"), remoteFullIp);
                 }
             }
             catch (Exception ex)

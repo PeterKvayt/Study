@@ -16,8 +16,10 @@ namespace ClientUDP1
         static IPAddress[] addr = Dns.GetHostEntry(Dns.GetHostName()).AddressList;
         static string localIpV6Address = addr[addr.Length - 1].ToString(); // local ipv6
         static string remoteIpV6Address = localIpV6Address;
-        static string localIpV4Address = new WebClient().DownloadString("http://icanhazip.com/"); // local ipv4
-        static string remoteIpV4Address = "178.120.75.34";
+        //static string localIpV4Address = new WebClient().DownloadString("http://icanhazip.com/"); // local ipv4
+        static string localIpV4Address = "127.0.0.1";// local ipv4
+        static string remoteIpV4Address = "127.0.0.1";
+        //static string remoteIpV4Address = "178.120.75.34";
         static Socket listeningSocket;
 
         static void Main(string[] args)
@@ -29,7 +31,8 @@ namespace ClientUDP1
             //remotePort = Int32.Parse(Console.ReadLine());
             //Console.Write("Введите свое имя: ");
             //userName = Console.ReadLine();
-            Console.WriteLine("Для отправки сообщений введите сообщение и нажмите Enter");
+            //Console.WriteLine("Для отправки сообщений введите сообщение и нажмите Enter");
+            Console.WriteLine("Waiting for messages");
             Console.WriteLine();
 
             try
@@ -43,12 +46,13 @@ namespace ClientUDP1
                 // отправка сообщений на разные порты
                 while (true)
                 {
-                    string message = Console.ReadLine();
+                    Console.ReadKey();
+                    //string message = Console.ReadLine();
 
-                    byte[] data = Encoding.Unicode.GetBytes(message);
+                    //byte[] data = Encoding.Unicode.GetBytes(message);
                     //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV6Address), remotePort);
-                    EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV4Address), remotePort);
-                    listeningSocket.SendTo(data, remotePoint);
+                    //EndPoint remotePoint = new IPEndPoint(IPAddress.Parse(remoteIpV4Address), remotePort);
+                    //listeningSocket.SendTo(data, remotePoint);
                 }
             }
             catch (Exception ex)
@@ -92,8 +96,15 @@ namespace ClientUDP1
                     // получаем данные о подключении
                     IPEndPoint remoteFullIp = remoteIp as IPEndPoint;
 
+                    string recieveMessage = builder.ToString();
+
                     // выводим сообщение
-                    Console.WriteLine("You:{1} - {2}",  DateTime.Now.ToShortTimeString(), builder.ToString());
+                    Console.WriteLine("Message:{0} - {1}",  DateTime.Now.ToShortTimeString(), recieveMessage);
+                    listeningSocket.SendTo(Encoding.Unicode.GetBytes("message is recieve"), remoteFullIp);
+                    if (recieveMessage.Contains("func"))
+                    {
+                        listeningSocket.SendTo(Encoding.Unicode.GetBytes(Perform(recieveMessage)), remoteFullIp);
+                    }
                 }
             }
             catch (Exception ex)
@@ -113,6 +124,35 @@ namespace ClientUDP1
                 listeningSocket.Shutdown(SocketShutdown.Both);
                 listeningSocket.Close();
                 listeningSocket = null;
+            }
+        }
+
+        static private string Perform(string message)
+        {
+            message = message.Replace("func ", "");
+            double result = 0;
+            if (message.Contains("Add"))
+            {
+                message = message.Replace("Add ", "");
+                string[] arguments = message.Split(new char[] { ' ' });
+                
+                foreach (string item in arguments)
+                {
+                    try
+                    {
+                        result += Convert.ToDouble(item);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("error");
+                        throw;
+                    }
+                }
+                return result.ToString();
+            }
+            else
+            {
+                return "there is no this function!";
             }
         }
     }
