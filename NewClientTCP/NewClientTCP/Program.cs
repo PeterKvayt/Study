@@ -27,7 +27,7 @@ namespace NewClientTCP
                 {
                     Console.WriteLine("Write your message");
                     string message = Console.ReadLine();
-                    byte[] data = Encoding.UTF8.GetBytes(message);
+                    byte[] data = Encoding.Unicode.GetBytes(message);
                     // Отправка сообщения 
                     stream.Write(data, 0, data.Length);
                     if (message == "exit")
@@ -36,7 +36,7 @@ namespace NewClientTCP
                     }
                     byte[] response = new byte[256];
                     int responseLength = stream.Read(response, 0, response.Length);
-                    Console.WriteLine(Encoding.UTF8.GetString(response, 0, response.Length));
+                    Console.WriteLine(Encoding.Unicode.GetString(response, 0, response.Length));
                 }
                 // Закрываем потоки 
                 stream.Close();

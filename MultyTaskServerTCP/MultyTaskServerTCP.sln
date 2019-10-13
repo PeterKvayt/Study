@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultyTaskServerTCP", "MultyTaskServerTCP\MultyTaskServerTCP.csproj", "{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultyTaskClientTCP", "MultyTaskClientTCP\MultyTaskClientTCP.csproj", "{058A25F8-121F-45CA-A174-9017E78434AD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6} = {ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED05F3AB-D62A-45A9-B3E0-ACD94A129FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058A25F8-121F-45CA-A174-9017E78434AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058A25F8-121F-45CA-A174-9017E78434AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058A25F8-121F-45CA-A174-9017E78434AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058A25F8-121F-45CA-A174-9017E78434AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {93BB8B02-9BE3-4C22-BEB1-59AF7A27EB20}
+	EndGlobalSection
+EndGlobal
