@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace MultyTaskServerTCP
 {
-    static class StudentsList
+    class StudentsList
     {
-        static public List<Student> Students { get; set; }
-
-        static public void SetStudents(Student st)
+        public Student[] Students { get; set; }
+        
+        public StudentsList(Student[] students)
         {
-            Students.
-                Add
-                (st);
+            Students = students;
         }
     }
 }

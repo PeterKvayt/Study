@@ -20,21 +20,24 @@ namespace MultyTaskServerTCP
                 Student[] students =
                 {
                     new Student("Bob","1"),
-                    new Student(),
-                    new Student(),
-                    new Student("Rob", "10")
+                    new Student("Richard","2"),
+                    new Student("Nick","3"),
+                    new Student("Rob", "10"),
+                    new Student("Yan", "11")
 
                 };
 
+                StudentsList list = new StudentsList(students);
+
                 //StudentsList listOfStudents = new StudentsList();
 
-                foreach (var item in students)
-                {
-                    StudentsList.
-                        SetStudents
-                        (item);
+                //foreach (var item in students)
+                //{
+                //    StudentsList.
+                //        SetStudents
+                //        (item);
 
-                }
+                //}
                 //Student.Students.AddRange(students);
 
                 server = new TcpListener(IPAddress.Parse("127.0.0.1"), 5001);
@@ -47,8 +50,8 @@ namespace MultyTaskServerTCP
                     TcpClient client = server.AcceptTcpClient();
                     ClientObject clientObject = new ClientObject(client);
 
-                    Thread thread = new Thread(new ThreadStart(clientObject.Process));
-                    thread.Start();
+                    Thread thread = new Thread(new ParameterizedThreadStart(clientObject.Process));
+                    thread.Start(list);
                 }
             }
             catch (Exception ex)

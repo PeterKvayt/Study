@@ -11,21 +11,23 @@ namespace MultyTaskServerTCP
     {
         public TcpClient Client { get; set; }
 
+        private static StudentsList studentsList { get; set; }
+
         public ClientObject(TcpClient client)
         {
             Client = client;
         }
 
-        public void Process()
+        public void Process(object students)
         {
-
+            studentsList = (StudentsList)students;
             NetworkStream stream = null;
             try
             {
                 stream = Client.GetStream();
-                byte[] data = new byte[256];
                 while (true)
                 {
+                    byte[] data = new byte[256];
                     StringBuilder builder = new StringBuilder();
                     int dataLength = 0;
                     do
@@ -65,36 +67,57 @@ namespace MultyTaskServerTCP
 
         private bool ResponsePerform(string message, NetworkStream stream)
         {
-            if (message.ToLower().Contains("get"))
+            message = message.ToLower();
+
+            if (message.Contains("get"))
             {
-                message = message.ToLower();
                 message = message.Replace("get ", "");
+                Console.WriteLine(message);
 
                 try
                 {
-                    double number = Convert.ToDouble(message.Trim());
-                    foreach (var item in StudentsList.Students)
+                    double number = Convert.ToDouble(message);
+                    //byte[] data = new byte[256];
+                    foreach (var item in studentsList.Students)
                     {
                         if (Convert.ToDouble(item.Group) == number)
                         {
                             message = DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
-                            byte[] data = Encoding.Unicode.GetBytes(message);
-                            stream.Write(data, 0, data.Length);
+                            break;
+                        }
+                        else
+                        {
+                            message = DateTime.Now.ToShortTimeString() + ": No matches in group number!";
                         }
                     }
+                    //byte[] data = Encoding.Unicode.GetBytes(message);
+                    //stream.Write(data, 0, data.Length);
+
                 }
                 catch (Exception)
                 {
-                    foreach (var item in StudentsList.Students)
+                    string query = message;
+
+                    foreach(var item in studentsList.Students)
                     {
-                        if (item.Name == message.Trim())
+                        //Student item = studentsList.Students[i];
+                        string name = item.Name.ToLower();
+                        Console.WriteLine(name+":"+query);
+                        bool flag = query == name ? true : false;
+                        Console.WriteLine(flag);
+                        if (flag)
                         {
                             message = DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
-                            byte[] data = Encoding.Unicode.GetBytes(message);
-                            stream.Write(data, 0, data.Length);
+                            break;
+                        }
+                        else
+                        {
+                            message = DateTime.Now.ToShortTimeString() + ": No matches in student name!";
                         }
                     }
                 }
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                stream.Write(data, 0, data.Length);
                 return true;
             }
             else
