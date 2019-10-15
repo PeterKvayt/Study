@@ -41,9 +41,10 @@ namespace MultyTaskServerTCP
 
                     if (!ResponsePerform(response, stream))
                     {
-                        Console.WriteLine(DateTime.Now.ToShortTimeString() + ": " + response);
-                        data = Encoding.Unicode.GetBytes(response);
-                        stream.Write(data, 0, data.Length);
+                        Send(DateTime.Now.ToShortTimeString() + ": " + response, stream);
+                        //Console.WriteLine(DateTime.Now.ToShortTimeString() + ": " + response);
+                        //data = Encoding.Unicode.GetBytes(response);
+                        //stream.Write(data, 0, data.Length);
                     }
                 }
             }
@@ -74,20 +75,25 @@ namespace MultyTaskServerTCP
                 message = message.Replace("get ", "");
                 Console.WriteLine(message);
 
+                bool isWrong = false;
+
                 try
                 {
                     double number = Convert.ToDouble(message);
+                    string query = message;
                     foreach (var item in studentsList.Students)
                     {
-                        if (Convert.ToDouble(item.Group) == number)
+                        if (item.Group.Contains(query))
                         {
-                            message = DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
-                            break;
+                            message = "\n" + DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
+                            Send(message, stream);
+                            isWrong = true;
                         }
-                        else
-                        {
-                            message = DateTime.Now.ToShortTimeString() + ": No matches in group number!";
-                        }
+                    }
+                    if (!isWrong)
+                    {
+                        message = DateTime.Now.ToShortTimeString() + ": No matches in group numbers!";
+                        Send(message, stream);
                     }
                 }
                 catch (Exception)
@@ -96,25 +102,32 @@ namespace MultyTaskServerTCP
 
                     foreach(var item in studentsList.Students)
                     {
-                        if (item.Name.ToLower() == query)
+                        if (item.Name.ToLower().Contains(query))
                         {
-                            message = DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
-                            break;
-                        }
-                        else
-                        {
-                            message = DateTime.Now.ToShortTimeString() + ": No matches in student name!";
+                            message = "\n" + DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
+                            Send(message, stream);
+                            isWrong = true;
                         }
                     }
+                    if (!isWrong)
+                    {
+                        message = DateTime.Now.ToShortTimeString() + ": No matches in student names!";
+                        Send(message, stream);
+                    }
                 }
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                stream.Write(data, 0, data.Length);
+                
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        private void Send(string message, NetworkStream stream)
+        {
+            byte[] data = Encoding.Unicode.GetBytes(message);
+            stream.Write(data, 0, data.Length);
         }
     }
 }
