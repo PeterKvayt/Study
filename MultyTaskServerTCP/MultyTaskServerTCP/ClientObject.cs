@@ -33,7 +33,7 @@ namespace MultyTaskServerTCP
                     do
                     {
                         dataLength = stream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.Unicode.GetString(data, 0, data.Length));
+                        builder.Append(Encoding.Unicode.GetString(data, 0, dataLength));
                     }
                     while (stream.DataAvailable);
 
@@ -77,7 +77,6 @@ namespace MultyTaskServerTCP
                 try
                 {
                     double number = Convert.ToDouble(message);
-                    //byte[] data = new byte[256];
                     foreach (var item in studentsList.Students)
                     {
                         if (Convert.ToDouble(item.Group) == number)
@@ -90,9 +89,6 @@ namespace MultyTaskServerTCP
                             message = DateTime.Now.ToShortTimeString() + ": No matches in group number!";
                         }
                     }
-                    //byte[] data = Encoding.Unicode.GetBytes(message);
-                    //stream.Write(data, 0, data.Length);
-
                 }
                 catch (Exception)
                 {
@@ -100,12 +96,7 @@ namespace MultyTaskServerTCP
 
                     foreach(var item in studentsList.Students)
                     {
-                        //Student item = studentsList.Students[i];
-                        string name = item.Name.ToLower();
-                        Console.WriteLine(name+":"+query);
-                        bool flag = query == name ? true : false;
-                        Console.WriteLine(flag);
-                        if (flag)
+                        if (item.Name.ToLower() == query)
                         {
                             message = DateTime.Now.ToShortTimeString() + ": " + "Student name : " + item.Name + "; Group number : " + item.Group;
                             break;
