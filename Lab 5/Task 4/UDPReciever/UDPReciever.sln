@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPReciever", "UDPReciever\UDPReciever.csproj", "{EAD791B6-C3D8-44AB-BDE7-0EDD3C7E9EDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UDPSender", "..\..\Task 1\UDPSender\UDPSender\UDPSender.csproj", "{604433DD-A12F-4BEB-BE7F-C8449157358A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAD791B6-C3D8-44AB-BDE7-0EDD3C7E9EDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD791B6-C3D8-44AB-BDE7-0EDD3C7E9EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD791B6-C3D8-44AB-BDE7-0EDD3C7E9EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD791B6-C3D8-44AB-BDE7-0EDD3C7E9EDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{604433DD-A12F-4BEB-BE7F-C8449157358A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604433DD-A12F-4BEB-BE7F-C8449157358A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604433DD-A12F-4BEB-BE7F-C8449157358A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604433DD-A12F-4BEB-BE7F-C8449157358A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C50B3AA3-61AD-4375-9C92-35E711B21C4D}
+	EndGlobalSection
+EndGlobal
