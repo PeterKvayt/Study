@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("FormTCPChat")]
+[assembly: AssemblyTitle("FormClient2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FormTCPChat")]
+[assembly: AssemblyProduct("FormClient2")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("bd4649c6-95b8-4eb5-a673-d61bfdab7897")]
+[assembly: Guid("2f1864f6-4bde-4477-a4f1-d2cdc227faf5")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

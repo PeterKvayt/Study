@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FormTCPChat.Properties
+namespace FormClient1.Properties
 {
 
 

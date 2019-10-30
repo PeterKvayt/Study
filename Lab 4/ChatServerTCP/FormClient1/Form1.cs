@@ -10,11 +10,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FormTCPChat
+namespace FormClient1
 {
     public partial class Form1 : Form
     {
         static string userName;
+        //private const string host = "fd80:7d14:74d4:ed00:705f:be9c:40f5:9e09";
         private const string host = "127.0.0.1";
         private const int port = 8888;
         static TcpClient client;
@@ -28,11 +29,11 @@ namespace FormTCPChat
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxName.Text))
+            if (!string.IsNullOrEmpty(textBoxName.Text) && !string.IsNullOrWhiteSpace(textBoxName.Text))
             {
                 userName = textBoxName.Text;
+
                 buttonConnect.Enabled = false;
-                //buttonDisconnect.Enabled = true;
                 buttonSend.Enabled = true;
                 textBoxName.Enabled = false;
                 textBoxMessage.Enabled = true;
@@ -44,17 +45,21 @@ namespace FormTCPChat
                     client.Connect(host, port); //подключение клиента
                     stream = client.GetStream(); // получаем поток
 
-                    byte[] data = Encoding.Unicode.GetBytes(userName);
+                    string message = userName;
+                    byte[] data = Encoding.Unicode.GetBytes(message);
                     stream.Write(data, 0, data.Length);
 
                     // запускаем новый поток для получения данных
                     receiveThread = new Thread(new ThreadStart(ReceiveMessage));
                     receiveThread.Start(); //старт потока
-                    textBoxMessages.Text += "Welcome , "+ userName;
+                    textBoxMessages.Text = "Welcome, " + userName;
+                    //SendMessage();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.ToString());
+                    MessageBox.Show(ex.Message);
+                    //Console.WriteLine(ex.Message);
+                    //Console.ReadKey();
                 }
                 //finally
                 //{
@@ -63,15 +68,18 @@ namespace FormTCPChat
             }
         }
 
-        // отправка сообщений
-        static void SendMessage(string message)
+        private void buttonSend_Click(object sender, EventArgs e)
         {
-            byte[] data = Encoding.Unicode.GetBytes(message);
-            stream.Write(data, 0, data.Length);
+            if (!string.IsNullOrEmpty(textBoxMessage.Text) && !string.IsNullOrWhiteSpace(textBoxMessage.Text))
+            {
+                byte[] data = Encoding.Unicode.GetBytes(textBoxMessage.Text);
+                stream.Write(data, 0, data.Length);
+                textBoxMessage.Text = "";
+            }
         }
 
         // получение сообщений
-        void ReceiveMessage()
+        static void ReceiveMessage()
         {
             while (true)
             {
@@ -87,11 +95,14 @@ namespace FormTCPChat
                     }
                     while (stream.DataAvailable);
                     string message = builder.ToString();
-                    textBoxMessages.Text =  message;
+                    ActiveForm.Controls["textBoxMessages"].Text += message;
+                    //Console.WriteLine(message);//вывод сообщения
                 }
                 catch
                 {
                     MessageBox.Show("Подключение прервано!");
+                    //Console.WriteLine("Подключение прервано!"); //соединение было прервано
+                    //Console.ReadLine();
                     Disconnect();
                 }
             }
@@ -106,29 +117,9 @@ namespace FormTCPChat
             Environment.Exit(0); //завершение процесса
         }
 
-        private void buttonSend_Click(object sender, EventArgs e)
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxMessage.Text) && !string.IsNullOrWhiteSpace(textBoxMessage.Text))
-            {
-                try
-                {
-                    SendMessage(textBoxMessage.Text);
-                    textBoxMessage.Text = "";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(this, ex.ToString());
-                }
-            }
-        }
-
-        private void buttonDisconnect_Click(object sender, EventArgs e)
-        {
-            textBoxName.Text = "";
-            buttonConnect.Enabled = true;
-            //buttonDisconnect.Enabled = false;
-            buttonSend.Enabled = false;
-            textBoxMessage.Enabled = false;
+            Environment.Exit(0); //завершение процесса
         }
     }
 }
