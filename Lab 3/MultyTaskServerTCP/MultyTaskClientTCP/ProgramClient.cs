@@ -14,7 +14,7 @@ namespace MultyTaskClientTCP
             TcpClient client = null;
             try
             {
-                client = new TcpClient("127.0.0.1", 8888);
+                client = new TcpClient("127.0.0.1", 5001);
                 NetworkStream stream = client.GetStream();
                 while (true)
                 {
@@ -44,6 +44,7 @@ namespace MultyTaskClientTCP
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.ReadKey();
             }
             finally
             {
