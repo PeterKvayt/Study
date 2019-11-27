@@ -14,7 +14,7 @@ namespace UDPSender
 
         static void Main(string[] args)
         {
-            UdpClient udpClient = new UdpClient(5002);
+            UdpClient udpClient = new UdpClient(5003);
 
             byte[] sendBytes = Encoding.Unicode.GetBytes("My message");
 

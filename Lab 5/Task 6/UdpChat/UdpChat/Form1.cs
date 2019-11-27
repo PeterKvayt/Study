@@ -18,7 +18,7 @@ namespace UdpChat
         bool alive = false; // будет ли работать поток для приема
         UdpClient client;
         int LOCALPORT = 8001; // порт для приема сообщений
-        int REMOTEPORT = 8003; // порт для отправки сообщений
+        int REMOTEPORT = 8002; // порт для отправки сообщений
         const int TTL = 20;
         const string HOST = "235.5.5.1"; // хост для групповой рассылки
         IPAddress groupAddress; // адрес для групповой рассылки
@@ -39,7 +39,8 @@ namespace UdpChat
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            LOCALPORT = Convert.ToInt32(portTextBox.Text);
+            LOCALPORT = Convert.ToInt32(localPortTextBox.Text);
+            REMOTEPORT = Convert.ToInt32(removePortTextBox.Text);
             //REMOTEPORT = Convert.ToInt32(portTextBox.Text);
             userName = userNameTextBox.Text;
             userNameTextBox.ReadOnly = true;
@@ -109,6 +110,8 @@ namespace UdpChat
                 string message = String.Format("{0}: {1}", userName, messageTextBox.Text);
                 byte[] data = Encoding.Unicode.GetBytes(message);
                 client.Send(data, data.Length, HOST, REMOTEPORT);
+                string time = DateTime.Now.ToShortTimeString();
+                chatTextBox.Text = time + " " + message + "\r\n" + chatTextBox.Text;
                 messageTextBox.Clear();
             }
             catch (Exception ex)

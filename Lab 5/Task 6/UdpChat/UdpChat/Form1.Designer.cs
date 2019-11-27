@@ -35,8 +35,10 @@
             this.chatTextBox = new System.Windows.Forms.TextBox();
             this.messageTextBox = new System.Windows.Forms.TextBox();
             this.sendButton = new System.Windows.Forms.Button();
-            this.portTextBox = new System.Windows.Forms.TextBox();
+            this.localPortTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.removePortTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -84,10 +86,10 @@
             this.chatTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.chatTextBox.Location = new System.Drawing.Point(12, 67);
+            this.chatTextBox.Location = new System.Drawing.Point(12, 118);
             this.chatTextBox.Multiline = true;
             this.chatTextBox.Name = "chatTextBox";
-            this.chatTextBox.Size = new System.Drawing.Size(447, 237);
+            this.chatTextBox.Size = new System.Drawing.Size(447, 186);
             this.chatTextBox.TabIndex = 4;
             // 
             // messageTextBox
@@ -111,31 +113,51 @@
             this.sendButton.UseVisualStyleBackColor = true;
             this.sendButton.Click += new System.EventHandler(this.sendButton_Click);
             // 
-            // portTextBox
+            // localPortTextBox
             // 
-            this.portTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.localPortTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.portTextBox.Location = new System.Drawing.Point(99, 37);
-            this.portTextBox.Name = "portTextBox";
-            this.portTextBox.Size = new System.Drawing.Size(249, 22);
-            this.portTextBox.TabIndex = 7;
+            this.localPortTextBox.Location = new System.Drawing.Point(140, 37);
+            this.localPortTextBox.Name = "localPortTextBox";
+            this.localPortTextBox.Size = new System.Drawing.Size(208, 22);
+            this.localPortTextBox.TabIndex = 7;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 37);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 17);
+            this.label2.Size = new System.Drawing.Size(104, 17);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Enter port";
+            this.label2.Text = "Enter local port";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(122, 17);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Enter remove port";
+            // 
+            // removePortTextBox
+            // 
+            this.removePortTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.removePortTextBox.Location = new System.Drawing.Point(140, 65);
+            this.removePortTextBox.Name = "removePortTextBox";
+            this.removePortTextBox.Size = new System.Drawing.Size(208, 22);
+            this.removePortTextBox.TabIndex = 9;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 392);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.removePortTextBox);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.portTextBox);
+            this.Controls.Add(this.localPortTextBox);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.messageTextBox);
             this.Controls.Add(this.chatTextBox);
@@ -161,8 +183,10 @@
         private System.Windows.Forms.TextBox chatTextBox;
         private System.Windows.Forms.TextBox messageTextBox;
         private System.Windows.Forms.Button sendButton;
-        private System.Windows.Forms.TextBox portTextBox;
+        private System.Windows.Forms.TextBox localPortTextBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox removePortTextBox;
     }
 }
 
